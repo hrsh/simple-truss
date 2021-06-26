@@ -8,6 +8,8 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
+# Units: N-m-s
+
 wipe
 
 model BasicBuilder -ndm 2 -ndf 2
@@ -17,3 +19,78 @@ set H1 1.1547
 set H2 3.4640
 set P1 2000.0
 set P2 3000.0
+
+node 1 0.0                      0.0
+node 2 $L                       0.0
+node 3 [expr 2.0 * $L]          0.0
+node 4 [expr 3.0 * $L]          0.0
+node 5 [expr $L / 2.0]          $H1
+node 6 [expr (3.0 * $L / 2.0)]  $H2
+node 7 [expr (5.0 * $L / 2.0)]  $H1
+
+fix 1 0 1
+fix 4 1 1
+
+uniaxialMaterial Elastic 1 20E9
+
+section Fiber 1 {
+    patch circ 1 10 4 0.0 0.0 0.16 0.2 0.0 360.0
+}
+
+
+element trussSection 1  1   2   1
+element trussSection 2  2   3   1
+element trussSection 3  3   4   1
+element trussSection 4  1   5   1
+element trussSection 5  5   2   1
+element trussSection 6  2   6   1
+element trussSection 7  6   3   1
+element trussSection 8  3   7   1
+element trussSection 9  7   4   1
+element trussSection 10 5   6   1
+element trussSection 11 6   7   1
+
+pattern Plain 1 Linear {
+    load 5 0.0 -$P2
+    load 6 0.0 -$P1
+    load 7 0.0 -$P2
+}
+
+recorder Node -file base1.txt -node 1 -dof 1 2 reaction
+recorder Node -file base2.txt -node 4 -dof 1 2 reaction
+
+recorder Element -file ele1.txt -ele 1 localForce
+recorder Element -file ele2.txt -ele 2 localForce
+recorder Element -file ele3.txt -ele 3 localForce
+recorder Element -file ele4.txt -ele 4 localForce
+recorder Element -file ele5.txt -ele 5 localForce
+recorder Element -file ele6.txt -ele 6 localForce
+recorder Element -file ele7.txt -ele 7 localForce
+recorder Element -file ele8.txt -ele 8 localForce
+recorder Element -file ele9.txt -ele 9 localForce
+recorder Element -file ele10.txt -ele 10 localForce
+
+wipeAnalysis
+
+constraints Transformation
+numberer RCM
+system SparseGEN
+test EnergyIncr 1e-7 25 0
+algorithm ModifiedNewton
+integrator LoadControl 1
+analysis Static
+analyze 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
