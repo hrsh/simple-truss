@@ -1,0 +1,19 @@
+{
+  "Id": "16289068-895c-22aa-975e-39fd5a45afdc",
+  "Name": "SimpleTruss",
+  "Path": "D:\\MyProgramming\\OpemSEES\\01-simpleTruss\\SimpleTruss\\SimpleTruss.osproj",
+  "DateCreated": "2021-06-26T16:03:45.5637382+04:30",
+  "FileVersion": "1",
+  "Nodes": [
+    {
+      "Name": "SimpleTruss",
+      "Path": "D:\\MyProgramming\\OpemSEES\\01-simpleTruss\\SimpleTruss\\SimpleTruss.tcl",
+      "Id": "21ed0982-4419-c834-1035-39fd5a45afdd",
+      "DateCreated": "2021-06-26T16:03:45.5657157+04:30",
+      "IsBaseItem": true,
+      "IsOriginalItem": true,
+      "IsOpen": true,
+      "FileExtension": 1
+    }
+  ]
+}
